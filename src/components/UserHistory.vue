@@ -73,9 +73,9 @@ export default defineComponent({
 
 
     onBeforeMount(async ()=>{
-     await fetch.get(`publications/getAllPublications`).then((res:any)=>{
+     await fetch.get(`publications/getPublicationsById/${myUser?.user?.idusuario}`).then((res:any)=>{
         console.log(res);
-        posts.value = res.reverse();
+        posts.value = res;
       })
     })
 
@@ -101,7 +101,7 @@ export default defineComponent({
 
         payload['name'] ="Yo";
         if (posts.value[messagePos]?.comments){
-          posts.value[messagePos]['comments'] = [...posts.value[messagePos]['comments'], payload].reverse()
+          posts.value[messagePos]['comments'] = [...posts.value[messagePos]['comments'], payload]
         }else{
           posts.value[messagePos]['comments'] = [payload]
         }
@@ -129,7 +129,7 @@ export default defineComponent({
       })
     }
 
-    function like(post:postI):void{
+    function like(post){
       post.likes = (parseInt(post.likes) + 1).toString() ;
       fetch.put("publications/update", post);
     }
@@ -173,6 +173,7 @@ export default defineComponent({
 .comments{
   border-bottom: 0.3px gray solid ;
   margin-top: 15px;
+
   color: gray;
   padding: 10px;
   width: 50%;

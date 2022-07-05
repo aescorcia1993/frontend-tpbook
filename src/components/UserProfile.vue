@@ -24,9 +24,7 @@
        <div class="row justify-start bg-grey-6 rounded-borders header-height q-pa-sm q-mt-lg centered-v q-gutter-sm">
          <q-btn icon="edit"  :label="isEditMode?'Save':'Edit'" color="blue" class="header-btn" @click="editProfile()">
          </q-btn>
-         <q-btn icon="email"  label="Posts" color="blue" class="header-btn">
-         </q-btn>
-         <q-btn icon="message"  label="Comments" color="blue" class="header-btn">
+         <q-btn v-if="isEditMode" icon="cancel"  label="Cancel" color="red" class="header-btn" @click="isEditMode = false">
          </q-btn>
        </div>
 
@@ -106,12 +104,30 @@
                class="col-5"
                filled
                v-model="profile.picture"
-               label="Your Picture *"
+               label="You can add here a web address of your image *"
                lazy-rules
                :readonly = "!isEditMode"
                :rules="[
           val => val !== null && val !== '' || 'Please type your Picture']"
              />
+
+             <q-file
+               :readonly = "!isEditMode"
+               v-model="newImage"
+               outlined
+               dense
+               label="Select Image.."
+               accept="image/png, image/jpeg, image/jpg, image/bmp"
+               max-file-size="50000"
+               hint="max file size 50kB"
+               @rejected="onRejected()"
+               @input="loadImage($event)"
+             >
+               <template #append >
+                <q-icon name="upload" color="blue"></q-icon>
+               </template>
+             </q-file>
+
            </div>
 
          </q-form>
@@ -154,10 +170,11 @@ export default defineComponent({
     let user = ref<userI | null>(userStore.$state.user);
     const $q = useQuasar();
     let isNew = false;
+    let newImage = ref(null);
 
-    onBeforeMount(()=>{
+    onBeforeMount(async()=>{
 
-      fetch.get(`profile/get/${userStore.$state.user?.idusuario}`).then((res:any) =>{
+      await fetch.get(`profile/get/${userStore.$state.user?.idusuario}`).then((res:any) =>{
         if (res === null){
           $q.dialog({
             title: "Profile",
@@ -166,8 +183,9 @@ export default defineComponent({
           isNew = true;
           profile.value = newProfile;
         }else{
-          profile.value = res;
-          originalProfile.value = {...res};
+          profile.value = res[0];
+          let copy = res.slice();
+          originalProfile.value = copy[0];
         }
 
       }).catch(err =>{
@@ -188,6 +206,7 @@ export default defineComponent({
         isEditMode.value = true;
       }
     }
+
     function save(){
       fetch.put("profile/update",profile.value).then(res=>{
         $q.notify({
@@ -197,6 +216,7 @@ export default defineComponent({
         })
       });
     }
+
     function create(){
       fetch.post("profile/register",profile.value).then(res=>{
         $q.notify({
@@ -207,13 +227,36 @@ export default defineComponent({
       });
     }
 
+    function loadImage(event) {
+      let file = event.target.files[0];
+      let reader = new FileReader();
+      reader.onload = function () {
+          profile.value.picture = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function onRejected() {
+      $q.notify({
+        message:"Picture is oversized",
+        textColor:"white",
+        color:"red",
+        timeout:500
+      })
+      setTimeout(()=> profile.value.picture = defaultPhoto , 500);
+    }
+
     let defaultPhoto = 'https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png'
+
     return{
       profile,
       isEditMode,
       editProfile,
       defaultPhoto,
-      user
+      loadImage,
+      user,
+      newImage,
+      onRejected
     }
   }
 });

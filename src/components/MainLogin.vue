@@ -54,7 +54,6 @@ import fetch from "../helpers/fetch";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useRouter, useRoute } from "vue-router";
-import { userI } from "../models/user";
 import { useUserStore } from "../stores/user";
 
 export default defineComponent({
@@ -99,25 +98,13 @@ export default defineComponent({
       });
     }
 
-//computed
-//methods
-//event called from children
-//watchers
-//event exposed
     context.expose({});
 
     return {
-//variables
-      user, password, $v,
-//ref
-//computed
-//methods
+      user, password,
       login
-//event called from children
-//watchers
-//event exposed
-
     };
+
   }
 });
 </script>

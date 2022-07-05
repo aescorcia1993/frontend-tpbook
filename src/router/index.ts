@@ -36,6 +36,14 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "home",
         component: () => import("../components/UserHome.vue"),
+      },
+      {
+        path: "history",
+        component: () => import("../components/UserHistory.vue"),
+      },
+      {
+        path: "post",
+        component: () => import("../components/NewPublication.vue"),
       }
     ]
   },
@@ -48,8 +56,8 @@ const router = createRouter({
 
 router.beforeEach((to,from)=>{
   const userStore = useUserStore();
-  if (userStore.isLogged === false && to.path !== "/login"){
-    return "/login"
+  if (userStore.isLogged === false && to.path !== "/login" && to.path !== "/register" ){
+   return "/login"
   }
 })
 

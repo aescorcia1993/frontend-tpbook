@@ -68,7 +68,7 @@
       </div>
 
       <div class="mb-4">
-        <a class="text-color" href="/resetpass">Forgot password?</a>
+        <q-icon name="login"></q-icon>   <a class="text-color" href="/login">log in</a>
       </div>
     </div>
   </div>
@@ -81,12 +81,15 @@ import { computed, defineComponent, ref } from "vue";
 import fetch from "../helpers/fetch";
 import useVuelidate from "@vuelidate/core";
 import { required, sameAs, email as vemail } from "@vuelidate/validators";
+import { useQuasar } from "quasar";
+import { useRouter, useRoute } from "vue-router";
 
 export default defineComponent({
   name: "LoginRegistration",
   components: {},
   props: {},
   setup(props, context) {
+    const $q = useQuasar();
 
     let user = ref<string>("");
     let password = ref<string>("");
@@ -106,6 +109,7 @@ export default defineComponent({
       };
     });
     const $v = useVuelidate(rules, { user, password, confirmPassword, phone, address, email  });
+    const router = useRouter();
 
    async function login() {
      await $v.value.$validate().then(isValid => {
@@ -119,11 +123,28 @@ export default defineComponent({
           };
 
           fetch.post("user/register", payload).then(res => {
-              console.log("Usuario creado",res)
-          });
+              $q.notify({
+                message:"User created",
+                color:"green",
+                textColor: "white"
+              })
+            router.push({path:"/login"})
+          }).catch((res)=>{
+            $q.notify({
+              message:"Upss User couldn't be created",
+              color:"red",
+              textColor: "white",
+              timeout:500
+            })
+          })
 
        } else {
-         console.log("NO VALIDO");
+          $q.notify({
+            message:"You are missing some fields",
+            color:"red",
+            textColor: "white",
+            timeout:500
+          })
          return;
        }
       });

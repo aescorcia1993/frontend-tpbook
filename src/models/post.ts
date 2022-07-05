@@ -1,8 +1,7 @@
 export interface postI{
   idpublications?:number
   author:number
-  date:string
-  hour:string
+  stamp: string
   content:string
   likes:string
   comments:commentI[]

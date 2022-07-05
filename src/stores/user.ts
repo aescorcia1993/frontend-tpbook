@@ -2,18 +2,17 @@ import { defineStore } from "pinia";
 import { user, userI } from "../models/user";
 
 export const useUserStore = defineStore("user",{
-    state: ():{isLogged:boolean, user:userI | null} => {
+    state: ():{isLogged:boolean, user:userI | null, profile:any} => {
          return {
            isLogged: false,
-           user: null
+           user: null,
+           profile: null
          };
     },
     actions:{
-        increment(val){
-              this.isLogged = val;
-        },
-        decrement(val){
-              this.isLogged = val;
+        logout(val?){
+              this.isLogged = false;
+              this.user = null;
         }
     },
     getters:{

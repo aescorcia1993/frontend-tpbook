@@ -19,3 +19,12 @@
 body {
   background: #fbfbfb;
 }
+
+.button-icon{
+  cursor: pointer;
+
+  &:hover{
+    color:red;
+    cursor: pointer;
+  }
+}

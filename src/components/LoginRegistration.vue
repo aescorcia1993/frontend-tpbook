@@ -61,7 +61,7 @@
       <div class="row justify-center q-ma-md">
         <q-btn
           icon="mail"
-          label="Log in"
+          label="Register me"
           @click="login()"
         >
         </q-btn>

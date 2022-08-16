@@ -1,6 +1,6 @@
 async function http<T>(path: string, config: RequestInit): Promise<T> {
 
-    path = "50.17.90.199:3000/" + path; //replace for config files
+    path = "http://50.17.90.199:3000/" + path; //replace for config files
 
     const request = new Request(path, config);
     const response = await fetch(request);

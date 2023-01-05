@@ -1,8 +1,8 @@
 # Frontend-vue3
 - Vue3 + Vite + TypeScript + Sass
 # Design Patterns
-- Factory Method
-- Strategy
+- Factory Method pattern
+- Strategy pattern
 - SOLID
 # Project Configuration
 - Packaged with Vite 2.9.0

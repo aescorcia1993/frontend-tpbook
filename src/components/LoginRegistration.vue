@@ -131,7 +131,7 @@ export default defineComponent({
             router.push({path:"/login"})
           }).catch((res)=>{
             $q.notify({
-              message:"Upss User couldn't be created",
+              message:"User couldn't be created",
               color:"red",
               textColor: "white",
               timeout:500

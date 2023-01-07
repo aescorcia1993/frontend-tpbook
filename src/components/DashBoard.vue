@@ -24,7 +24,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered>
        <div class="q-pa-lg q-ml-lg" style="margin-top: 30px">
            <div class="text-h5 label-link" style="margin-top: 30px" @click="go('home')">
              <q-icon name="home"></q-icon> Home
@@ -48,9 +48,9 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 
 

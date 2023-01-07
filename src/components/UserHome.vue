@@ -5,7 +5,7 @@
            <h6>click on Posting</h6>
          </div>
 
-        <q-card class="post q-pa-sm q-ma-md"  v-for="(post,index) in posts" :key="post.idpublications">
+        <q-card v-for="(post,index) in posts"  :key="post.idpublications" class="post q-pa-sm q-ma-md">
           <div class="text-h5 q-ml-xl"> {{ post.content }}</div>
           <div class="text-h6 q-ml-xl">{{ post.author }} - {{ toDate(post.stamp) }}</div>
           <div class="text-h6 q-ml-xl">
@@ -14,11 +14,11 @@
               See comments  <q-icon class="button-icon" color="blue" name="comment"  @click="seeComments(post.idpublications,index)"></q-icon>
             </div>
           </div>
-          <div v-if=" isCommentVisible[index]" class="comments" v-for="comment in post.comments">
+          <div v-for="comment in post.comments" v-if=" isCommentVisible[index]" :key="comment.id" class="comments">
             <div>
               {{ comment.content }}
             </div>
-            <div @click="seeProfile()">
+            <div @click="seeProfile(999)">
               <q-icon name="person" class="q-mr-sm button-icon" color="blue"></q-icon>  {{ comment.name}} | {{toDate(comment.stamp) }}
             </div>
 
@@ -26,15 +26,15 @@
           <div class="q-ma-lg">
             <div class="row justify-center q-gutter-lg q-mt-lg">
               <q-input
-                class="col-6"
                 v-model="newComment[index]"
+                class="col-6"
                 color="black"
                 debounce="500"
                 label="New Comment"
                 @keyup.enter="posting(post.idpublications,index)"
               >
 
-                <template v-slot:append>
+                <template #append>
                   <q-icon name="send" color="blue" class="button-icon"  @click="posting(post.idpublications,index)" />
                 </template>
 
@@ -85,7 +85,7 @@ export default defineComponent({
       let payload = {
         content: newComment.value[messagePos],
         stamp: stampTime(),
-        autorid: myUser.user?.idusuario,
+        autorid: myUser.user?.id,
         postid: id
       }
 

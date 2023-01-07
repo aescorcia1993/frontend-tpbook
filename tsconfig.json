@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "noImplicitAny": false,
+    "allowJs": true,
     "paths": {
       "src/*": ["./src/*"]
     }

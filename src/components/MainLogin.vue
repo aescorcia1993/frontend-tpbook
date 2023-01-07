@@ -9,7 +9,7 @@
     <div class="col q-pa-md justify-center">
 
       <div class="row justify-center">
-        <label class="text-h4">Sign in</label>
+        <label class="text-h4">Sign in now</label>
       </div>
 
       <div class="q-pa-sm">
@@ -40,7 +40,7 @@
       </div>
 
       <div class="mb-4">
-        <a class="text-color" href="/register">Register</a>
+        <a class="text-color" href="/register">Sign Up</a>
       </div>
     </div>
   </div>
@@ -50,11 +50,10 @@
 <script lang="ts">
 
 import { computed, defineComponent, ref } from "vue";
-import fetch from "../helpers/fetch";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useRouter, useRoute } from "vue-router";
-import { useUserStore } from "../stores/user";
+import { useUserStore, useUsersStore } from "../stores/user";
 
 export default defineComponent({
   name: "MainLogin",
@@ -62,10 +61,11 @@ export default defineComponent({
   props: {},
   setup(props, context) {
     const userStore = useUserStore();
+    const usersStore = useUsersStore();
     const router = useRouter();
 
     let user = ref<string>("andres");
-    let password = ref<string>("0000");
+    let password = ref<string>("1234");
 
     let rules = computed(() => {
       return {
@@ -76,24 +76,22 @@ export default defineComponent({
     const $v = useVuelidate(rules, { user, password });
 
    async function login() {
-     await $v.value.$validate().then(isValid => {
+     await $v.value.$validate().then( async isValid => {
         if (isValid) {
-          let payload = {
-            "user": user.value,
-            "password": password.value
-          };
 
-          fetch.post("user/login", payload).then((res: any) => {
-                if (res?.name){
-                  userStore.user = res;
+          const User = usersStore.getUser(user.value,password.value);
+
+                if (User?.name){
+                  userStore.user = User;
                   userStore.isLogged = true;
                   router.push({path:"/dashboard/home"})
+                }else{
+                  alert("Usuario invalido.")
                 }
-          });
+
 
        } else {
-         console.log("NO VALIDO");
-         return;
+          alert("Verifique el email o el password.");
        }
       });
     }

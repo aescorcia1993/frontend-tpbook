@@ -9,7 +9,6 @@ async function http<T>(path: string, config: RequestInit): Promise<T> {
         throw new Error(`code:${response.text} - message:${response.statusText}`);
     }
 
-    // may error if there is no body, return empty array
     return response.json().catch(() => ({}));
 }
 

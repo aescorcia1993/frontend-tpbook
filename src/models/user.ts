@@ -1,5 +1,5 @@
-export interface userI{
-  idusuario?: number
+export interface IUser{
+  id?: number
   name: string,
   password: string,
   correo: string,
@@ -8,8 +8,8 @@ export interface userI{
   sesion: string
 }
 
-export class user implements userI{
-  idusuario?: number
+export class User implements IUser{
+  id?: number
   name: string
   password: string
   correo: string
@@ -17,8 +17,8 @@ export class user implements userI{
   direccion:string
   sesion: string
 
-  constructor(user:userI) {
-    this.idusuario = user?.idusuario;
+  constructor(user:IUser) {
+    this.id = user?.id;
     this.name = user.name;
     this.password = user.password;
     this.correo = user.correo;

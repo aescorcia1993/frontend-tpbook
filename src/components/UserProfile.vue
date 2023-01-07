@@ -140,7 +140,7 @@
 <script lang="ts">
 
 import { defineComponent, onBeforeMount, PropType, ref, watch } from "vue";
-import { userI } from "../models/user";
+import { IUser } from 'src/models/User';
 import { profileI } from "../models/profile";
 import fetch from "../helpers/fetch";
 import { useQuasar } from "quasar";
@@ -167,7 +167,7 @@ export default defineComponent({
     let profile = ref<profileI | null>(newProfile);
     let isEditMode = ref<boolean>(false);
     let originalProfile = ref<profileI | null>(null);
-    let user = ref<userI | null>(userStore.$state.user);
+    let user = ref<IUser | null>(userStore.$state.user);
     const $q = useQuasar();
     let isNew = false;
     let newImage = ref(null);

@@ -1,14 +1,14 @@
-export interface postI{
-  idpublications?:number
+export interface IPost{
+  id?:number
   author:number
   stamp: string
   content:string
   likes:string
-  comments:commentI[]
+  comments:IComment[]
 }
 
-export interface commentI{
-  id?: 2,
+export interface IComment{
+  id?: number,
   content:string
   stamp: string
   autor: string

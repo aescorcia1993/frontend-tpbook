@@ -4,7 +4,7 @@
     class="row login centered-h"
   >
     <div class="modals-header">
-      <h2 class="centered-v text-color">TPbook</h2>
+      <h2 class="centered-v text-color">TP-Book</h2>
     </div>
     <div class="col q-pa-md justify-center">
 
